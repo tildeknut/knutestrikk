@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Add garn page</title>
+</head>
+
+<body>
+
+  
+        <button id="myBtn"> Knutestrikk </button>
+        <button id="shopping" class="fa fa-shopping-cart"> </button>
+        <button id="buttonBack" class="fa fa-arrow-left"> </button>
+    
+        <H1>Legg til Garn</H1>
+        <form id="fmData">
+            <span>Type: </span>
+            <input name="name" type="text" />
+            <br>
+            <span>Produsent: </span>
+            <input name="category_id" type="text" />
+            <br>
+            <span>Strikkefasthet: </span>
+            <input name="price" type="text" />
+            <br>
+            <span>Pinnestørrelse: </span>
+            <input name="height" type="text" />
+            <br>
+        </form>
+        <button id="addButton">Legg til garn</button>
+    
+
+    <script>
+
+        let addButton = document.getElementById('addButton');
+        let fmData = document.getElementById('fmData');
+        let token = localStorage.getItem("token");
+
+
+        addButton.addEventListener('click', async function () {
+            let upData = new FormData(fmData);
+            let url = "https://helseflora.herokuapp.com/plants?key=VRIPLE71";
+            let cfg = {
+                method: 'POST',
+                headers: {
+                    'authorization': token
+                },
+                body: upData
+            }
+            let response = await fetch(url, cfg);
+            let data = await response.json();
+            console.log(data);
+        })
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>

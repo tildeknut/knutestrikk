@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Add plant page</title>
+</head>
+
+<body>
+
+  
+        <button id="myBtn"> HelseFlora </button>
+        <button id="shopping" class="fa fa-shopping-cart"> </button>
+        <button id="buttonBack" class="fa fa-arrow-left"> </button>
+        <div id="container"> </div>
+        <H1>Legg til Plante</H1>
+        <form id="fmData">
+            <span>Name: </span>
+            <input name="name" type="text" />
+            <br>
+            <span>Category id: </span>
+            <input name="category_id" type="text" />
+            <br>
+            <span>Price: </span>
+            <input name="price" type="text" />
+            <br>
+            <span>Height: </span>
+            <input name="height" type="text" />
+            <br>
+            <span>Stock: </span>
+            <input name="stock" type="text" />
+            <br>
+        </form>
+        <button id="addButton">Legg til plante</button>
+    
+
+    <script>
+
+        let addButton = document.getElementById('addButton');
+        let fmData = document.getElementById('fmData');
+        let token = localStorage.getItem("token");
+
+
+        addButton.addEventListener('click', async function () {
+            let upData = new FormData(fmData);
+            let url = "https://helseflora.herokuapp.com/plants?key=VRIPLE71";
+            let cfg = {
+                method: 'POST',
+                headers: {
+                    'authorization': token
+                },
+                body: upData
+            }
+            let response = await fetch(url, cfg);
+            let data = await response.json();
+            console.log(data);
+        })
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>

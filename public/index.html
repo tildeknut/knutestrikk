@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My document</title>
+</head>
+
+<body>
+
+    <div id="cont">
+    </div>
+
+    <template id="logInToApp">
+        <h1>Logg inn</h1>
+        <span>Email:</span>
+        <input id="bruk" type="text">
+        <br>
+        <span>Passord:</span>
+        <input id="pass" type="password">
+        <br>
+        <button id="loggInn" onclick="getUser();">Logg inn</button>
+        <br>
+        <br>
+        <a href="AddNewUser">Register ny bruker</a>
+        <a href="countHelp">Tellehjelp?</a>
+        <a href="maskKnit">Økekalkulator</a>
+        <a href="decrease">Fellekalkulator</a>
+    </template>
+
+    <template id="AddNewUser">
+        <h1>Lag ny bruker</h1>
+        <span>Navn:</span>
+        <input id="newName" type="text">
+        <br>
+        <span>Email:</span>
+        <input id="newMail" type="text">
+        <br>
+        <span>Passord:</span>
+        <input id="newPassword" type="password">
+        <br>
+        <br>
+        <button id="nyBruker" onclick="createUser();">Legg til ny bruker</button>
+        <br>
+        <br>
+        <a href="logInToApp"> Allerede bruker? Logg inn </a>
+    </template>
+
+    <template id="maskKnit">
+        <span>Masker på pinnen:</span>
+        <input id="myInput" type="text">
+        <span>Hvor mange skal det være etter økning?:</span>
+        <input id="myInp" type="text">
+        <button id="myButton" onclick="increaseMask();"> Regn ut</button>
+        <h2 id="myText"> </h2>
+        <a href="countHelp">Tellehjelp?</a>
+        <a href="decrease">Fellekalkulator</a>
+        <a href="logInToApp"> Logg ut </a>
+    </template>
+
+    <template id="decrease">
+        <span>Masker på pinnen:</span>
+        <input id="myInput" type="text">
+        <span>Hvor mange skal det være etter felling?:</span>
+        <input id="myInp" type="text">
+        <button id="myButton" onclick="decreaseMask();"> Regn ut</button>
+        <h2 id="myText"> </h2>
+        <a href="countHelp">Tellehjelp?</a>
+        <a href="maskKnit">Økekalkulator</a>
+        <a href="logInToApp"> Logg ut </a>
+    </template>
+
+    <template id="countHelp">
+        <button id="myBtn" onclick="countMask();">Tellehjelp</button>
+        <h1 id="Tellehjelp"></h1>
+        <a href="maskKnit">Økekalkulator</a>
+        <a href="decrease">Fellekalkulator</a>
+        <a href="logInToApp"> Logg ut </a>
+    </template>
+
+
+    <script>
+        window.addEventListener("load", () => {
+
+            template_view("logInToApp", "cont")
+        })
+
+        //import userRouter from './user.mjs'
+        let cont = document.getElementById("cont");
+        let bruk = document.getElementById('bruk');
+        let pass = document.getElementById('pass');
+        let loggInn = document.getElementById('loggInn');
+
+        let nyBruker = document.getElementById('nyBruker');
+        let newName = document.getElementById('newName');
+        let newUser = document.getElementById('newuser');
+        let newPassword = document.getElementById('newPassword');
+
+        let count = 0;
+
+        let navLinks;
+
+        function template_view(id) {
+            cont.innerHTML = "";
+            let template = document.getElementById(id);
+            let clone = template.content.cloneNode(true);
+            cont.appendChild(clone);
+
+            navLinks = document.querySelectorAll("a");
+            handleNavLinks(navLinks);
+
+            // buttonAddEventlistener();
+        }
+
+        function buttonAddEventlistener() {
+            let myButton = document.getElementById('myButton');
+            let myBtn = document.getElementById('myBtn')
+            let myInput = document.getElementById('myInput');
+            let myInp = document.getElementById('myInp');
+            let myText = document.getElementById('myText');
+
+            let Tellehjelp = document.getElementById('Tellehjelp');
+            let count = 0;
+
+
+            /*myButton.addEventListener('click', function () {
+                let masker = parseFloat(myInput.value);
+                let okninger = parseFloat(myInp.value);
+                let result = (okninger / masker);
+
+                myText.innerHTML = "Øk hver " + result + " pinne ";
+            })*/
+
+            /* myBtn.addEventListener('click', function (evt) {
+                 count++;
+ 
+                 Tellehjelp.innerHTML = count;
+             });*/
+        }
+
+        function increaseMask() {
+            let myText = document.getElementById('myText');
+            let masker = parseFloat(myInput.value);
+            let okninger = parseFloat(myInp.value);
+            let result = (okninger / masker);
+
+            myText.innerHTML = "Øk hver " + result + " pinne ";
+        }
+
+        function decreaseMask() {
+            let myText = document.getElementById('myText');
+            let masks = parseFloat(myInput.value);
+            let fellinger = parseFloat(myInp.value);
+            let result = ( masks / fellinger );
+
+            myText.innerHTML = "Fell hver " + result + " pinne ";
+        }
+
+        function countMask() {
+            let Tellehjelp = document.getElementById('Tellehjelp');
+            count++;
+            Tellehjelp.innerHTML = count;
+        }
+
+        function linkNav(event) {
+            event.preventDefault();
+            let path = event.target.getAttribute("href");
+            template_view(path);
+        }
+
+        function handleNavLinks(links) {
+            links.forEach((link) => {
+                link.addEventListener("click", linkNav);
+            })
+        }
+
+        async function createUser() {
+            const nameInput = document.getElementById('newName');
+            const mailInput = document.getElementById('newMail');
+            const passwordInput = document.getElementById('newPassword');
+
+            let data = {
+                name: nameInput.value,
+                email: mailInput.value,
+                password: passwordInput.value
+            }
+
+            const response = await fetch('/user', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
+
+
+            console.log(data);
+            console.log(response);
+
+
+            return response.json();
+        }
+
+        /* nyBruker.addEventListener('click', function (evt) {
+             evt.preventDefault();
+             createUser();
+         });*/
+
+        //template_view(maskKnit, contnt);
+
+        async function getUser() {
+            const username = document.getElementById('bruk');
+            const password = document.getElementById('pass');
+
+            let data = {
+                email: username.value,
+                password: password.value
+            }
+
+            console.log(data);
+            
+            const response = await fetch('/user/login', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
+
+            console.log(data);
+            console.log(response);
+
+            return response.json();
+        }
+
+        async function getPinne() {
+            const nameInput = document.getElementById('newName');
+            const mailInput = document.getElementById('newMail');
+            const passwordInput = document.getElementById('newPassword');
+
+            let data = {
+                name: nameInput.value,
+                email: mailInput.value,
+                password: passwordInput.value
+            }
+
+            const response = await fetch('/user', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
+
+
+            console.log(data);
+            alert("du har logget inn");
+            console.log(response);
+
+
+            return response.json();
+        } 
+
+
+    </script>
+
+</body>
+
+</html>
