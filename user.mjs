@@ -4,6 +4,7 @@ import * as PG from "pg"
 //import userRouter from "server.mjs"
 const { Client } = PG.default
 const userRouter = new express.Router();
+import { DB_CREDENTIALS } from "./pinner.mjs";
 
 userRouter.use(express.json());
 
@@ -13,7 +14,7 @@ userRouter.post("/", createUser)
 userRouter.post("/login", getUser);
 //userRouter.delete("/", deleteUser)
 
-const DB_CREDENTIALS = process.env.DATABASE_URL;
+//const DB_CREDENTIALS = process.env.DATABASE_URL;
 
 //const DB_CREDENTIALS = "postgresql://hannahmatildeknutsdatter@localhost:5432/hannahmatildeknutsdatter"
 

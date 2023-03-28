@@ -7,8 +7,6 @@ import pinneRouter from './pinner.mjs'
 const server = express();
 const port = (process.env.PORT || 8080);
 
-ssl:{rejectUnauthorized:false}
-
 server.set('port', port);
 server.use(express.static('public'));
 
