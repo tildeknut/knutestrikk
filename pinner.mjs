@@ -12,7 +12,8 @@ pinneRouter.use(express.json());
 pinneRouter.post("/");
 
 
-const DB_CREDENTIALS = "postgresql://hannahmatildeknutsdatter@localhost:5432/hannahmatildeknutsdatter"
+//const DB_CREDENTIALS = "postgresql://hannahmatildeknutsdatter@localhost:5432/hannahmatildeknutsdatter"
+const DB_CREDENTIALS = process.env.DATABASE_URL;
 
 async function collectPinne(req, res, next) {
 
