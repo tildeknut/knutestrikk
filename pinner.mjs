@@ -15,8 +15,10 @@ pinneRouter.post("/");
 //const DB_CREDENTIALS = "postgresql://hannahmatildeknutsdatter@localhost:5432/hannahmatildeknutsdatter"
 //const DB_CREDENTIALS = process.env.DATABASE_URL;
 
+const database_url = process.env.DATABASE_URL || "postgres://wgeokickfgglaw:9ce56de2bac6847bf085e67c0fdefa11b0b3375ce287e9a333d65f19f2b7180c@ec2-52-215-68-14.eu-west-1.compute.amazonaws.com:5432/d6pf32ovcef6qm";
+
 export const DB_CREDENTIALS = {
-    connectionString: process.env.DATABASE_URL,
+    connectionString: database_url,
     ssl: {
         rejectUnauthorized: false
     }

@@ -1,6 +1,7 @@
 import express from "express"
 import { Server } from "http";
 import * as PG from "pg"
+import "dotenv/config";
 //import userRouter from "server.mjs"
 const { Client } = PG.default
 const userRouter = new express.Router();
@@ -54,13 +55,8 @@ async function getUser(req, res, next) {
     const email = req.body.email;
     const psw = req.body.password;
 
-    const credentials = {
-        connectionString: DB_CREDENTIALS,
-        ssl: false
-        // NB på server må dette muligens være ssl:{rejectUnauthorized:false}
-    };
     // SQL
-    const client = new Client(credentials);
+    const client = new Client(DB_CREDENTIALS);
 
     try {
         const hash = createHmac('sha256', psw).digest('hex');
